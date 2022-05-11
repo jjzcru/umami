@@ -5,7 +5,7 @@ drop table if exists website;
 drop table if exists account;
 
 create table account (
-    user_id serial primary key,
+    user_id int GENERATED ALWAYS AS IDENTITY (START WITH 1000) primary key,
     username varchar(255) unique not null,
     password varchar(60) not null,
     is_admin bool not null default false,
@@ -14,7 +14,7 @@ create table account (
 );
 
 create table website (
-    website_id serial primary key,
+    website_id int GENERATED ALWAYS AS IDENTITY (START WITH 1000) primary key,
     website_uuid uuid unique not null,
     user_id int not null references account(user_id) on delete cascade,
     name varchar(100) not null,
@@ -24,7 +24,7 @@ create table website (
 );
 
 create table session (
-    session_id serial primary key,
+    session_id int GENERATED ALWAYS AS IDENTITY (START WITH 1000) primary key,
     session_uuid uuid unique not null,
     website_id int not null references website(website_id) on delete cascade,
     created_at timestamp with time zone default current_timestamp,
@@ -38,7 +38,7 @@ create table session (
 );
 
 create table pageview (
-    view_id serial primary key,
+    view_id int GENERATED ALWAYS AS IDENTITY (START WITH 1000) primary key,
     website_id int not null references website(website_id) on delete cascade,
     session_id int not null references session(session_id) on delete cascade,
     created_at timestamp with time zone default current_timestamp,
@@ -47,7 +47,7 @@ create table pageview (
 );
 
 create table event (
-    event_id serial primary key,
+    event_id int GENERATED ALWAYS AS IDENTITY (START WITH 1000) primary key,
     website_id int not null references website(website_id) on delete cascade,
     session_id int not null references session(session_id) on delete cascade,
     created_at timestamp with time zone default current_timestamp,

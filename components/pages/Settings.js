@@ -17,15 +17,29 @@ export default function Settings() {
   const [option, setOption] = useState(WEBSITES);
   const router = useRouter();
   const { pathname } = router;
+  const isAdmin = process.env.NEXT_PUBLIC_IS_ADMIN;
 
   if (!user) {
     return null;
+  }
+
+  if (!isAdmin) {
+    if (!user?.is_admin && pathname === WEBSITES && !isAdmin) {
+      window.location = '/settings/profile';
+      return null;
+    }
+
+    if (!user?.is_admin && pathname === ACCOUNTS && !isAdmin) {
+      window.location = '/settings/profile';
+      return null;
+    }
   }
 
   const menuOptions = [
     {
       label: <FormattedMessage id="label.websites" defaultMessage="Websites" />,
       value: WEBSITES,
+      hidden: isAdmin ? false : !user?.is_admin,
     },
     {
       label: <FormattedMessage id="label.accounts" defaultMessage="Accounts" />,

@@ -12,7 +12,7 @@ async function main() {
     where: { username: 'admin' },
     update: {},
     create: {
-      username: 'admin',
+      username: 'cf_admin',
       password: hashPassword(process.env.ADMIN_PASSWORD || 'umami'),
       is_admin: true,
     },

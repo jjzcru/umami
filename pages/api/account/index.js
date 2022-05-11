@@ -10,11 +10,13 @@ export default async (req, res) => {
 
   if (req.method === 'POST') {
     const { user_id, username, password, is_admin } = req.body;
-
+    console.log(`User id: ${user_id}`);
     if (user_id) {
       const account = await getAccountById(user_id);
+      console.log(`Account`);
+      console.log(account);
 
-      if (account.user_id === current_user_id || current_user_is_admin) {
+      if (account?.user_id === current_user_id || current_user_is_admin) {
         const data = {};
 
         if (password) {
